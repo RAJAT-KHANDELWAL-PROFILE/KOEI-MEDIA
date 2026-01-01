@@ -12,8 +12,8 @@ echo "Using Site Directory: $SITE_DIR"
 echo "Creating Nginx config at $CONFIG_FILE..."
 sudo bash -c "cat > $CONFIG_FILE" <<EOF
 server {
-    listen 8080;
-    server_name _;
+    listen 80;
+    server_name koeimedia.com www.koeimedia.com;
     
     root $SITE_DIR;
     index index.html index.htm;

@@ -29,8 +29,12 @@ jobs:
               git pull origin main
             else
               echo "Repository not found. Cloning..."
-              # Create directory if needed
-              mkdir -p ~/new-website
+              # CLEANUP: If directory exists but isn't a git repo, remove it to prevent "directory not empty" error
+              if [ -d "$HOME/new-website" ]; then
+                  echo "Removing existing non-git directory..."
+                  rm -rf "$HOME/new-website"
+              fi
+              
               # Clone
               git clone git@github.com:RAJAT-KHANDELWAL-PROFILE/KOEI-MEDIA.git ~/new-website
             fi

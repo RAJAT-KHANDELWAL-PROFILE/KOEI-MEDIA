@@ -18,36 +18,31 @@ jobs:
           script: |
             set -e 
 
-            echo "Environment Check:"
+            echo "=== STARTING DEBUG DEPLOY ==="
             whoami
             pwd
 
-            # 0. Ensure Git is installed
+            # 1. Check Git Version
             if ! command -v git &> /dev/null; then
-                echo "Git is not installed. Installing..."
-                sudo apt-get update
-                sudo apt-get install -y git
+                echo "CRITICAL: Git is NOT installed. Aborting."
+                exit 1
             else
-                echo "Git is already installed."
+                echo "Git is installed: $(git --version)"
             fi
 
-            # 1. Add GitHub to known_hosts to prevent "Host key verification failed"
-            mkdir -p ~/.ssh
-            ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+            # 2. Configure Git to ignore Host Key Checking (Solves "Host key verification failed")
+            export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
-            # 2. Check if repo exists
-            if [ -d "~/new-website/.git" ]; then
-              echo "Repository exists. Pulling latest changes..."
-              cd ~/new-website
+            # 3. Clone or Pull
+            if [ -d "$HOME/new-website/.git" ]; then
+              echo "Repo exists. Pulling..."
+              cd "$HOME/new-website"
               git pull origin main
             else
-              echo "Repository not found. Cloning..."
-              # CLEANUP: If directory exists but isn't a git repo, remove it to prevent "directory not empty" error
-              if [ -d "$HOME/new-website" ]; then
-                  echo "Removing existing non-git directory..."
-                  rm -rf "$HOME/new-website"
-              fi
-              
-              # Clone
+              echo "Repo missing. Cleaning and Cloning..."
+              rm -rf "$HOME/new-website"
+              mkdir -p "$HOME/new-website"
               git clone git@github.com:RAJAT-KHANDELWAL-PROFILE/KOEI-MEDIA.git ~/new-website
             fi
+
+            echo "=== DEPLOYMENT SUCCESS ==="

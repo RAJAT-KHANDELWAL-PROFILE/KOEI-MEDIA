@@ -16,12 +16,21 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Create directory if it doesn't exist
-            mkdir -p ~/new-website
+            set -e 
 
-            # Navigate and pull or clone
+            # 1. Add GitHub to known_hosts to prevent "Host key verification failed"
+            mkdir -p ~/.ssh
+            ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+
+            # 2. Check if repo exists
             if [ -d "~/new-website/.git" ]; then
+              echo "Repository exists. Pulling latest changes..."
               cd ~/new-website
               git pull origin main
+            else
+              echo "Repository not found. Cloning..."
+              # Create directory if needed
+              mkdir -p ~/new-website
+              # Clone
               git clone git@github.com:RAJAT-KHANDELWAL-PROFILE/KOEI-MEDIA.git ~/new-website
             fi

@@ -1,0 +1,28 @@
+name: Deploy to VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          # Create directory if it doesn't exist
+          mkdir -p ~/new-website
+          
+          # Navigate and pull or clone
+          if [ -d "~/new-website/.git" ]; then
+            cd ~/new-website
+            git pull origin main
+          else
+            git clone https://github.com/RAJAT-KHANDELWAL-PROFILE/KOEI-MEDIA.git ~/new-website
+          fi

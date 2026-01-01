@@ -18,6 +18,19 @@ jobs:
           script: |
             set -e 
 
+            echo "Environment Check:"
+            whoami
+            pwd
+
+            # 0. Ensure Git is installed
+            if ! command -v git &> /dev/null; then
+                echo "Git is not installed. Installing..."
+                sudo apt-get update
+                sudo apt-get install -y git
+            else
+                echo "Git is already installed."
+            fi
+
             # 1. Add GitHub to known_hosts to prevent "Host key verification failed"
             mkdir -p ~/.ssh
             ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null || true

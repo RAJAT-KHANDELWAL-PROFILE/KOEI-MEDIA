@@ -1,0 +1,49 @@
+/* WebGL Fluid Background Overlay Styles */
+
+/* The animated canvas - fixed behind all content */
+#fluid-canvas {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: all;
+}
+
+/* Ensure hero section allows pointer events to pass through to canvas */
+.hero {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+    /* Allow clicks to pass through to canvas */
+}
+
+.hero-content {
+    pointer-events: none;
+    /* Text should not block canvas interaction */
+}
+
+/* Make only the CTA wrapper clickable */
+.hero-content .cta-wrapper {
+    pointer-events: all;
+}
+
+/* Ensure header can still receive clicks */
+.header {
+    pointer-events: all;
+}
+
+/* Ensure all sections below hero can receive clicks */
+.section {
+    position: relative;
+    z-index: 1;
+    background-color: var(--bg-dark);
+    pointer-events: all;
+}
+
+/* Hide the old gradient background */
+.hero-background {
+    display: none;
+}

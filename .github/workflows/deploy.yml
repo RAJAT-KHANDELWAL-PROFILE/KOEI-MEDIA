@@ -12,55 +12,12 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
+          debug: true
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e 
-            echo "=== DIAGNOSTIC START ==="
+            echo "=== CONNECTION SUCCESSFUL ==="
             whoami
             pwd
-
-            # 1. DIAGNOSTIC: Check if Git is installed
-            if ! command -v git &> /dev/null; then
-                echo "MISSING: Git is not installed. Installing..."
-                sudo apt-get update && sudo apt-get install -y git
-            else
-                echo "OK: Git is installed: $(git --version)"
-            fi
-
-            # 2. DIAGNOSTIC: Check SSH Directory and Key
-            mkdir -p ~/.ssh
-            chmod 700 ~/.ssh
-
-            if [ -f ~/.ssh/id_rsa ]; then
-                echo "OK: SSH Key file exists."
-                ls -l ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
-                echo "Permissions fixed to 600."
-            else
-                echo "CRITICAL FAILURE: ~/.ssh/id_rsa does NOT exist."
-                echo "The VM cannot authenticate with GitHub without this key."
-                echo "Did you run 'ssh-keygen' or the setup script on the VM?"
-                exit 1
-            fi
-
-            # 3. DIAGNOSTIC: Test GitHub Connection (Non-fatal)
-            echo "TEST: Attempting ssh -T git@github.com..."
-            ssh -T -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa git@github.com 2>&1 || true
-
-            # 4. DEPLOYMENT
-            export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-
-            if [ -d "$HOME/new-website/.git" ]; then
-              echo "Repo exists. Pulling..."
-              cd "$HOME/new-website"
-              git pull origin main
-            else
-              echo "Repo missing. Cleanup..."
-              rm -rf "$HOME/new-website"
-              mkdir -p "$HOME/new-website"
-              echo "Executing Clone..."
-              git clone -v git@github.com:RAJAT-KHANDELWAL-PROFILE/KOEI-MEDIA.git ~/new-website
-            fi
-            echo "=== DIAGNOSTIC SUCCESS ==="
+            echo "=== END TEST ==="

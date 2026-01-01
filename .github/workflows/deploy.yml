@@ -1,4 +1,4 @@
-name: Deploy to VM
+name: Debug Connection
 
 on:
   push:
@@ -6,18 +6,24 @@ on:
       - main
 
 jobs:
-  deploy:
+  debug-ssh:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          debug: true
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            echo "=== CONNECTION SUCCESSFUL ==="
-            whoami
-            pwd
-            echo "=== END TEST ==="
+      - name: Setup SSH Key
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Raw SSH Connection Test
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+        run: |
+          echo "-----------------------------------------------"
+          echo "Debugging Connection to $SSH_USER@$SSH_HOST"
+          echo "-----------------------------------------------"
+          # Run SSH in verbose mode (-v) to see exactly why it fails
+          ssh -v -o StrictHostKeyChecking=no -o ConnectTimeout=10 -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "echo 'SUCCESS: Connected as \$(whoami)'"

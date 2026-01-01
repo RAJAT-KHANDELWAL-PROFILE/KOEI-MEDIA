@@ -1,4 +1,4 @@
-name: Debug Connection
+name: Deploy to VM
 
 on:
   push:
@@ -6,24 +6,54 @@ on:
       - main
 
 jobs:
-  debug-ssh:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup SSH Key
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          debug: true
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e 
 
-      - name: Raw SSH Connection Test
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USERNAME }}
-        run: |
-          echo "-----------------------------------------------"
-          echo "Debugging Connection to $SSH_USER@$SSH_HOST"
-          echo "-----------------------------------------------"
-          # Run SSH in verbose mode (-v) to see exactly why it fails
-          ssh -v -o StrictHostKeyChecking=no -o ConnectTimeout=10 -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "echo 'SUCCESS: Connected as \$(whoami)'"
+            echo "=== STARTING SAFE DEPLOYMENT ==="
+
+            # 1. Ensure the dedicated key exists with correct permissions
+            if [ ! -f ~/.ssh/koei_key ]; then
+                echo "CRITICAL: ~/.ssh/koei_key not found!"
+                echo "Please run the key generation commands provided in the chat."
+                exit 1
+            fi
+            chmod 600 ~/.ssh/koei_key
+
+            # 2. Configure SSH to trust GitHub & Use the dedicated key
+            mkdir -p ~/.ssh
+            ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+
+            # Explicitly tell Git to use our SAFE, ISOLATED key
+            export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/koei_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+
+            # 3. Check/Install Git
+            if ! command -v git &> /dev/null; then
+                echo "Installing Git..."
+                sudo apt-get update && sudo apt-get install -y git
+            fi
+
+            # 4. Clone or Pull
+            TARGET_DIR="$HOME/new-website"
+            if [ -d "$TARGET_DIR/.git" ]; then
+              echo "Repo exists. Pulling..."
+              cd "$TARGET_DIR"
+              git pull origin main
+            else
+              echo "Repo missing or broken. Cleaning..."
+              rm -rf "$TARGET_DIR"
+              mkdir -p "$TARGET_DIR"
+              echo "Cloning..."
+              git clone git@github.com:RAJAT-KHANDELWAL-PROFILE/KOEI-MEDIA.git "$TARGET_DIR"
+            fi
+
+            echo "=== DEPLOYMENT COMPLETE ==="

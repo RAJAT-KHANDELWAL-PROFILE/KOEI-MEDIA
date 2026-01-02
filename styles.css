@@ -650,10 +650,13 @@ h3 {
     box-shadow var(--transition-medium);
   opacity: 0;
   animation: fadeIn 0.6s ease forwards;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: #ffffff; /* Fallback for performance */
+  background: rgba(255, 255, 255, 0.95); /* High opacity to skip expensive blur */
+  /* backdrop-filter: blur(10px); REMOVED for performance */
+  /* -webkit-backdrop-filter: blur(10px); */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  will-change: transform, opacity; /* Hint browser to optimize */
+  contain: content; /* Isolate rendering */
 }
 
 /* Animated gradient border */

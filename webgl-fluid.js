@@ -48,13 +48,13 @@ resizeCanvas();
 
 // Inline configuration (instead of fetching from config.json)
 const config = {
-  "SIM_RESOLUTION": 128,
-  "DYE_RESOLUTION": 1024,
-  "CAPTURE_RESOLUTION": 512,
+  "SIM_RESOLUTION": 64,   // Reduced from 128
+  "DYE_RESOLUTION": 512,  // Reduced from 1024
+  "CAPTURE_RESOLUTION": 256, // Reduced from 512
   "DENSITY_DISSIPATION": 1,
   "VELOCITY_DISSIPATION": 1,
   "PRESSURE": 0.25,
-  "PRESSURE_ITERATIONS": 20,
+  "PRESSURE_ITERATIONS": 10, // Reduced from 20
   "CURL": 0,
   "SPLAT_RADIUS": 0.15,
   "SPLAT_FORCE": 6000,
@@ -69,13 +69,13 @@ const config = {
   },
   "TRANSPARENT": false,
   "BLOOM": true,
-  "BLOOM_ITERATIONS": 8,
-  "BLOOM_RESOLUTION": 256,
+  "BLOOM_ITERATIONS": 4, // Reduced from 8
+  "BLOOM_RESOLUTION": 128, // Reduced from 256
   "BLOOM_INTENSITY": 0.8,
   "BLOOM_THRESHOLD": 0.6,
   "BLOOM_SOFT_KNEE": 0.7,
   "SUNRAYS": true,
-  "SUNRAYS_RESOLUTION": 196,
+  "SUNRAYS_RESOLUTION": 96, // Reduced from 196
   "SUNRAYS_WEIGHT": 1.0,
   "RANDOM_COLORS": true,
   "SPLAT_HUE": 0

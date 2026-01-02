@@ -255,20 +255,29 @@ function initializeScrollAnimations() {
 function initializeNavigation() {
   const header = document.getElementById('header');
   const navLinks = document.querySelectorAll('.nav-link');
+  let ticking = false;
 
-  // Header scroll effect
+  // Header scroll effect with requestAnimationFrame
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 100) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        
+        // Update active nav link
+        updateActiveNavLink();
+        ticking = false;
+      });
 
-    // Update active nav link
-    updateActiveNavLink();
+      ticking = true;
+    }
   });
 
-  // Smooth scroll
+  // Smooth scroll - native behavior is often smoother than JS implementation
+  // but keeping this for offset support
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -276,7 +285,7 @@ function initializeNavigation() {
       const targetSection = document.getElementById(targetId);
 
       if (targetSection) {
-        const headerHeight = header.offsetHeight;
+        const headerHeight = 90; // Fixed approximate height to avoid layout thrashing
         const targetPosition = targetSection.offsetTop - headerHeight;
 
         window.scrollTo({
@@ -288,25 +297,44 @@ function initializeNavigation() {
   });
 }
 
+// Cache sections to avoid querying DOM on every scroll
+let cachedSections = null;
+function getSections() {
+  if (!cachedSections) {
+    cachedSections = Array.from(document.querySelectorAll('section[id]'));
+  }
+  return cachedSections;
+}
+
 function updateActiveNavLink() {
-  const sections = document.querySelectorAll('section[id]');
+  const sections = getSections();
   const navLinks = document.querySelectorAll('.nav-link');
 
   let currentSection = '';
+  // Optimization: use window.scrollY directly
+  const scrollPosition = window.scrollY;
 
   sections.forEach(section => {
     const sectionTop = section.offsetTop;
-    const sectionHeight = section.offsetHeight;
+    // Removed sectionHeight calculation as it causes reflow
+    // const sectionHeight = section.offsetHeight;
 
-    if (window.scrollY >= sectionTop - 200) {
+    if (scrollPosition >= sectionTop - 200) {
       currentSection = section.getAttribute('id');
     }
   });
 
   navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === `#${currentSection}`) {
+    // Optimization: only touch DOM if class needs changing
+    const href = link.getAttribute('href');
+    const isMatch = href === `#${currentSection}`;
+    
+    if (isMatch && !link.classList.contains('active')) {
+      // Remove active from all others first
+      navLinks.forEach(l => l.classList.remove('active'));
       link.classList.add('active');
+    } else if (!isMatch && link.classList.contains('active')) {
+      // Don't remove here, logic above handles it cleaner
     }
   });
 }

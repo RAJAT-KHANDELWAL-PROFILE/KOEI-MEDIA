@@ -135,7 +135,8 @@ h3 {
   -webkit-backdrop-filter: blur(10px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  height: 90px; /* Fixed height to constrain layout */
+  height: 90px;
+  /* Fixed height to constrain layout */
   will-change: transform, background-color, padding;
 }
 
@@ -165,16 +166,14 @@ h3 {
   inset: -2px;
   border-radius: 50px;
   padding: 2px;
-  background: linear-gradient(
-    90deg,
-    #ff1b90,
-    #ff6b00,
-    white,
-    white,
-    white,
-    #764ba2,
-    #ff1b90
-  );
+  background: linear-gradient(90deg,
+      #ff1b90,
+      #ff6b00,
+      white,
+      white,
+      white,
+      #764ba2,
+      #ff1b90);
   background-size: 300% 100%;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -443,27 +442,22 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(
-      ellipse at top,
+  background: radial-gradient(ellipse at top,
       rgba(0, 217, 255, 0.04) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at bottom right,
+      transparent 50%),
+    radial-gradient(ellipse at bottom right,
       rgba(255, 27, 144, 0.04) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at bottom left,
+      transparent 50%),
+    radial-gradient(ellipse at bottom left,
       rgba(118, 75, 162, 0.04) 0%,
-      transparent 50%
-    );
+      transparent 50%);
   pointer-events: none;
   z-index: 0;
   animation: gradientShift 15s ease infinite;
 }
 
 @keyframes gradientShift {
+
   0%,
   100% {
     opacity: 1;
@@ -483,12 +477,10 @@ h3 {
   z-index: 1;
   color: #000000;
   /* Dark text on white background */
-  background: linear-gradient(
-    135deg,
-    var(--color-cyan),
-    var(--color-pink),
-    var(--color-orange)
-  );
+  background: linear-gradient(135deg,
+      var(--color-cyan),
+      var(--color-pink),
+      var(--color-orange));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -529,12 +521,10 @@ h3 {
   border-radius: 50px;
   font-size: 0.95rem;
   font-weight: 500;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(230, 240, 255, 0.4) 50%,
-    rgba(255, 230, 250, 0.4) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(230, 240, 255, 0.4) 50%,
+      rgba(255, 230, 250, 0.4) 100%);
   backdrop-filter: blur(30px) saturate(150%);
   -webkit-backdrop-filter: blur(30px) saturate(150%);
   color: #666666;
@@ -550,12 +540,10 @@ h3 {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(100, 150, 255, 0.2) 0%,
-    rgba(180, 120, 255, 0.15) 50%,
-    rgba(255, 150, 200, 0.2) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(100, 150, 255, 0.2) 0%,
+      rgba(180, 120, 255, 0.15) 50%,
+      rgba(255, 150, 200, 0.2) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -582,12 +570,10 @@ h3 {
 .filter-btn:hover {
   border-color: rgba(100, 200, 255, 0.4);
   color: #4a4a4a;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(200, 230, 255, 0.5) 50%,
-    rgba(255, 200, 240, 0.5) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(200, 230, 255, 0.5) 50%,
+      rgba(255, 200, 240, 0.5) 100%);
   transform: scale(1.05) translateY(-2px);
   box-shadow: 0 8px 24px rgba(100, 150, 255, 0.15),
     0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9),
@@ -606,12 +592,10 @@ h3 {
 }
 
 .filter-btn.active {
-  background: linear-gradient(
-    135deg,
-    rgba(100, 180, 255, 0.6) 0%,
-    rgba(160, 120, 255, 0.5) 50%,
-    rgba(255, 120, 200, 0.6) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(100, 180, 255, 0.6) 0%,
+      rgba(160, 120, 255, 0.5) 50%,
+      rgba(255, 120, 200, 0.6) 100%);
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.4);
   transform: scale(1.02);
@@ -650,13 +634,17 @@ h3 {
     box-shadow var(--transition-medium);
   opacity: 0;
   animation: fadeIn 0.6s ease forwards;
-  background: #ffffff; /* Fallback for performance */
-  background: rgba(255, 255, 255, 0.95); /* High opacity to skip expensive blur */
+  background: #ffffff;
+  /* Fallback for performance */
+  background: rgba(255, 255, 255, 0.95);
+  /* High opacity to skip expensive blur */
   /* backdrop-filter: blur(10px); REMOVED for performance */
   /* -webkit-backdrop-filter: blur(10px); */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  will-change: transform, opacity; /* Hint browser to optimize */
-  contain: content; /* Isolate rendering */
+  will-change: transform, opacity;
+  /* Hint browser to optimize */
+  contain: content;
+  /* Isolate rendering */
 }
 
 /* Animated gradient border */
@@ -666,13 +654,11 @@ h3 {
   inset: -2px;
   border-radius: var(--radius-lg);
   padding: 2px;
-  background: linear-gradient(
-    135deg,
-    var(--color-cyan),
-    var(--color-pink),
-    var(--color-orange),
-    var(--color-purple)
-  );
+  background: linear-gradient(135deg,
+      var(--color-cyan),
+      var(--color-pink),
+      var(--color-orange),
+      var(--color-purple));
   background-size: 300% 300%;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -718,11 +704,9 @@ h3 {
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 217, 255, 0.1),
-    rgba(255, 27, 144, 0.1)
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 217, 255, 0.1),
+      rgba(255, 27, 144, 0.1));
 }
 
 .work-card-image img {
@@ -740,24 +724,20 @@ h3 {
 .work-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(10, 10, 10, 0.95) 0%,
-    rgba(0, 217, 255, 0.15) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(to top,
+      rgba(10, 10, 10, 0.95) 0%,
+      rgba(0, 217, 255, 0.15) 50%,
+      transparent 100%);
   opacity: 0.7;
   transition: opacity var(--transition-medium);
 }
 
 .work-card:hover .work-card-overlay {
   opacity: 0.85;
-  background: linear-gradient(
-    to top,
-    rgba(10, 10, 10, 0.95) 0%,
-    rgba(255, 27, 144, 0.2) 50%,
-    rgba(0, 217, 255, 0.1) 100%
-  );
+  background: linear-gradient(to top,
+      rgba(10, 10, 10, 0.95) 0%,
+      rgba(255, 27, 144, 0.2) 50%,
+      rgba(0, 217, 255, 0.1) 100%);
 }
 
 .work-card-content {
@@ -999,21 +979,15 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(
-      ellipse at top,
+  background: radial-gradient(ellipse at top,
       rgba(0, 217, 255, 0.04) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at bottom right,
+      transparent 50%),
+    radial-gradient(ellipse at bottom right,
       rgba(255, 27, 144, 0.04) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at bottom left,
+      transparent 50%),
+    radial-gradient(ellipse at bottom left,
       rgba(118, 75, 162, 0.04) 0%,
-      transparent 50%
-    );
+      transparent 50%);
   pointer-events: none;
   z-index: 0;
   animation: gradientShift 15s ease infinite;
@@ -1110,11 +1084,9 @@ h3 {
   border-radius: var(--radius-sm);
   margin-bottom: 1rem;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 217, 255, 0.1),
-    rgba(255, 27, 144, 0.1)
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 217, 255, 0.1),
+      rgba(255, 27, 144, 0.1));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1168,16 +1140,12 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(
-      ellipse at top,
+  background: radial-gradient(ellipse at top,
       rgba(0, 217, 255, 0.04) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at bottom right,
+      transparent 50%),
+    radial-gradient(ellipse at bottom right,
       rgba(255, 27, 144, 0.04) 0%,
-      transparent 50%
-    );
+      transparent 50%);
   pointer-events: none;
   z-index: 0;
   animation: gradientShift 15s ease infinite;
@@ -1269,16 +1237,12 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(
-      ellipse at top,
+  background: radial-gradient(ellipse at top,
       rgba(0, 217, 255, 0.04) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at bottom right,
+      transparent 50%),
+    radial-gradient(ellipse at bottom right,
       rgba(255, 27, 144, 0.04) 0%,
-      transparent 50%
-    );
+      transparent 50%);
   pointer-events: none;
   z-index: 0;
   animation: gradientShift 15s ease infinite;
@@ -1506,6 +1470,82 @@ h3 {
 }
 
 /* ================================
+   Mobile Floating Work Button
+   ================================ */
+.mobile-work-button {
+  display: none;
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: 70px;
+  height: 70px;
+  padding: 0;
+  background: linear-gradient(180deg, #8B7FFF 0%, #5B9FFF 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 12px 40px rgba(91, 159, 255, 0.4), 0 6px 20px rgba(139, 127, 255, 0.3);
+  transition: all var(--transition-medium);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  animation: floatButton 3s ease-in-out infinite;
+}
+
+.mobile-work-button svg {
+  width: 28px;
+  height: 28px;
+  animation: bounceArrow 2s ease-in-out infinite;
+}
+
+.mobile-work-button span {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: -2px;
+}
+
+.mobile-work-button:hover {
+  transform: translateX(-50%) translateY(-4px) scale(1.05);
+  box-shadow: 0 16px 48px rgba(91, 159, 255, 0.5), 0 8px 24px rgba(139, 127, 255, 0.4);
+}
+
+.mobile-work-button:active {
+  transform: translateX(-50%) translateY(-2px) scale(0.98);
+}
+
+@keyframes floatButton {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes bounceArrow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* ================================
    Responsive Design
    ================================ */
 @media (max-width: 768px) {
@@ -1515,6 +1555,11 @@ h3 {
 
   .work-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Show mobile work button only on mobile */
+  .mobile-work-button {
+    display: flex;
   }
 
   .contact-container {

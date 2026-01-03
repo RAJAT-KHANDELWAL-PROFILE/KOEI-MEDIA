@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeWorkFocusMode();
   initializeCtaDropdown();
   generatePlaceholderImages();
+  initializeMobileWorkButton();
 });
 
 // ================================
@@ -266,7 +267,7 @@ function initializeNavigation() {
         } else {
           header.classList.remove('scrolled');
         }
-        
+
         // Update active nav link
         updateActiveNavLink();
         ticking = false;
@@ -328,7 +329,7 @@ function updateActiveNavLink() {
     // Optimization: only touch DOM if class needs changing
     const href = link.getAttribute('href');
     const isMatch = href === `#${currentSection}`;
-    
+
     if (isMatch && !link.classList.contains('active')) {
       // Remove active from all others first
       navLinks.forEach(l => l.classList.remove('active'));
@@ -737,4 +738,47 @@ function createClientLogo(name) {
   ctx.fillText(initials, canvas.width / 2, canvas.height / 2);
 
   return canvas.toDataURL();
+}
+// ================================
+// Mobile Work Button
+// ================================
+function initializeMobileWorkButton() {
+  const mobileWorkBtn = document.getElementById('mobileWorkBtn');
+  
+  if (!mobileWorkBtn) return;
+
+  // Scroll to work section when clicked
+  mobileWorkBtn.addEventListener('click', () => {
+    const workSection = document.getElementById('work');
+    if (workSection) {
+      workSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  });
+
+  // Hide button when in work section
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const workSection = document.getElementById('work');
+        if (workSection && mobileWorkBtn) {
+          const workRect = workSection.getBoundingClientRect();
+          const isInWorkSection = workRect.top <= 100 && workRect.bottom >= 0;
+          
+          if (isInWorkSection) {
+            mobileWorkBtn.style.opacity = '0';
+            mobileWorkBtn.style.pointerEvents = 'none';
+          } else {
+            mobileWorkBtn.style.opacity = '1';
+            mobileWorkBtn.style.pointerEvents = 'auto';
+          }
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
 }

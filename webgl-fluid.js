@@ -1679,7 +1679,7 @@ function runSimulation(config) {
   });
 
   canvas.addEventListener("touchstart", (e) => {
-    e.preventDefault();
+    // e.preventDefault(); // Allow scrolling
     const touches = e.targetTouches;
     while (touches.length >= pointers.length)
       pointers.push(new pointerPrototype());
@@ -1693,7 +1693,7 @@ function runSimulation(config) {
   canvas.addEventListener(
     "touchmove",
     (e) => {
-      e.preventDefault();
+      // e.preventDefault(); // Allow scrolling
       const touches = e.targetTouches;
       for (let i = 0; i < touches.length; i++) {
         let pointer = pointers[i + 1];

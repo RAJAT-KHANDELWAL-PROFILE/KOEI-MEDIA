@@ -1223,25 +1223,21 @@ h3 {
 
 .clients-track {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   gap: 5rem;
-  animation: scroll 20s linear infinite;
-  width: fit-content;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Pause animation on hover */
+/* Pause animation on hover - Removed for static display */
 .clients-marquee:hover .clients-track {
   animation-play-state: paused;
 }
 
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
+/* Scroll animation removed */
 
 .client-logo {
   flex-shrink: 0;
@@ -1252,7 +1248,8 @@ h3 {
   justify-content: center;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
-  padding: 2rem;
+  padding: 0;
+  overflow: hidden;
   transition: all var(--transition-medium);
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);

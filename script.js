@@ -886,3 +886,22 @@ function handleImageLoad(img) {
     img.src = originalSrc + '?force=' + Date.now();
   }
 }
+
+// ================================
+// Client Marquee
+// ================================
+function initializeClientMarquee() {
+  const track = document.querySelector('.clients-track');
+
+  if (!track) return;
+
+  // Clone the entire track content to create seamless loop
+  // cloneNode(true) is cleaner than innerHTML and better for performance
+  // It copies the DOM nodes, and the browser reuses cached images
+  const children = Array.from(track.children);
+  children.forEach(child => {
+    const clone = child.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  });
+}

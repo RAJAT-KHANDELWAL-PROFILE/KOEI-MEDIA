@@ -199,6 +199,10 @@ h3 {
   margin-right: 2rem;
 }
 
+.header.scrolled .logo img {
+  max-height: 60px !important;
+}
+
 .header.scrolled .nav {
   gap: 2rem;
 }
@@ -838,7 +842,7 @@ h3 {
 }
 
 .work-card-title {
-  font-size: 1.75rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
   background: linear-gradient(135deg, #ffffff, var(--color-cyan));
@@ -1718,7 +1722,7 @@ h3 {
   }
 
   .work-card-title {
-    font-size: 1.25rem;
+    font-size: 0.75rem;
   }
 
   .work-card-description {
@@ -1984,9 +1988,9 @@ h3 {
 
   .services-grid .service-card {
     flex: 0 0 auto;
-    min-width: 250px;
-    max-width: 250px;
-    width: 250px;
+    min-width: 280px;
+    max-width: 280px;
+    width: 280px;
   }
 
   .contact-container {
@@ -2036,8 +2040,8 @@ h3 {
 
   .services-grid .service-card {
     flex: 0 0 calc(16.666% - 1.5rem);
-    min-width: 220px;
-    max-width: 260px;
+    min-width: 300px;
+    max-width: 300px;
     width: auto;
   }
 

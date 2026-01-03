@@ -117,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeCtaDropdown();
   generatePlaceholderImages();
   initializeMobileWorkButton();
+  initializeScrollToWorkButton();
+  initializeImageLoading();
 });
 
 // ================================
@@ -744,7 +746,7 @@ function createClientLogo(name) {
 // ================================
 function initializeMobileWorkButton() {
   const mobileWorkBtn = document.getElementById('mobileWorkBtn');
-  
+
   if (!mobileWorkBtn) return;
 
   // Scroll to work section when clicked
@@ -767,7 +769,7 @@ function initializeMobileWorkButton() {
         if (workSection && mobileWorkBtn) {
           const workRect = workSection.getBoundingClientRect();
           const isInWorkSection = workRect.top <= 100 && workRect.bottom >= 0;
-          
+
           if (isInWorkSection) {
             mobileWorkBtn.style.opacity = '0';
             mobileWorkBtn.style.pointerEvents = 'none';
@@ -781,4 +783,106 @@ function initializeMobileWorkButton() {
       ticking = true;
     }
   });
+}
+
+// ================================
+// Scroll to Work Button
+// ================================
+function initializeScrollToWorkButton() {
+  const scrollBtn = document.querySelector('.scroll-to-work-btn');
+
+  if (!scrollBtn) return;
+
+  // Smooth scroll to work section when clicked
+  scrollBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const workSection = document.getElementById('work');
+    if (workSection) {
+      const headerHeight = 90;
+      const targetPosition = workSection.offsetTop - headerHeight;
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+  });
+}
+
+// ================================
+// Image Loading Handler
+// ================================
+function initializeImageLoading() {
+  // Handle service images
+  const serviceImages = document.querySelectorAll('.service-image img');
+  serviceImages.forEach(img => {
+    handleImageLoad(img);
+  });
+
+  // Handle client logos
+  const clientImages = document.querySelectorAll('.client-logo img');
+  clientImages.forEach(img => {
+    handleImageLoad(img);
+  });
+}
+
+function handleImageLoad(img) {
+  const originalSrc = img.src;
+  let retryCount = 0;
+  const maxRetries = 3;
+
+  // Add loading class
+  if (img.parentElement) {
+    img.parentElement.classList.add('loading');
+  }
+
+  // Success handler
+  img.addEventListener('load', function () {
+    if (img.parentElement) {
+      img.parentElement.classList.remove('loading');
+      img.parentElement.classList.add('loaded');
+    }
+  }, { once: true });
+
+  // Error handler with retry logic
+  const errorHandler = function () {
+    console.log(`Image failed to load: ${originalSrc}, retry ${retryCount + 1}/${maxRetries}`);
+
+    if (retryCount < maxRetries) {
+      retryCount++;
+      // Retry loading with cache busting
+      setTimeout(() => {
+        img.src = originalSrc + '?retry=' + retryCount;
+      }, 1000 * retryCount); // Exponential backoff
+    } else {
+      // After max retries, show placeholder
+      console.log(`Image failed after ${maxRetries} retries, using placeholder`);
+      if (img.parentElement) {
+        img.parentElement.classList.remove('loading');
+        img.parentElement.classList.add('error');
+      }
+
+      // Create a simple colored placeholder
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = 400;
+      canvas.height = 400;
+
+      // Gradient background
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, '#00D9FF');
+      gradient.addColorStop(1, '#764ba2');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      img.src = canvas.toDataURL();
+    }
+  };
+
+  img.addEventListener('error', errorHandler);
+
+  // Force reload if image is cached but not displaying
+  if (img.complete && !img.naturalHeight) {
+    img.src = originalSrc + '?force=' + Date.now();
+  }
 }

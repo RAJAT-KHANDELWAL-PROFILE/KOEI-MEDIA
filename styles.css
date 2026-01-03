@@ -413,7 +413,7 @@ h3 {
   width: 48px;
   height: 48px;
   position: absolute;
-  bottom: 3rem;
+  bottom: 6rem;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.15);
@@ -1021,7 +1021,7 @@ h3 {
 /* Services section with same styling as work section */
 #about {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: #ffffff;
   margin: 4rem 2rem;
   padding: 3rem 2rem;
@@ -1060,7 +1060,7 @@ h3 {
   margin-top: var(--spacing-md);
   position: relative;
   z-index: 1;
-  overflow-x: auto;
+  overflow-x: auto !important;
   overflow-y: visible;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -1656,6 +1656,10 @@ h3 {
   .hero-cta {
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
+  }
+
+  .scroll-to-work-btn {
+    bottom: 6rem;
   }
 
   .contact-icon {

@@ -1798,6 +1798,24 @@ h3 {
     border-radius: 20px;
   }
 
+  /* Video Modal - Vertical orientation for mobile */
+  .video-player-wrapper {
+    padding-bottom: 177.78%;
+    /* 9:16 aspect ratio for vertical videos */
+    max-width: 56.25vh;
+    /* Match 9:16 ratio to viewport height */
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .video-modal-content {
+    width: auto;
+    max-width: 95vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .testimonial {
     padding: 1.5rem;
   }
@@ -1839,6 +1857,19 @@ h3 {
     width: 40px;
     height: 40px;
     font-size: 20px;
+  }
+
+  /* Vertical video player for mobile */
+  .video-player-wrapper {
+    padding-bottom: 0 !important;
+    /* Remove fixed aspect ratio */
+    max-width: 360px !important;
+    width: 90vw !important;
+    height: 75vh !important;
+    /* Use viewport height instead */
+    max-height: 640px !important;
+    margin: 0 auto !important;
+    position: relative !important;
   }
 }
 

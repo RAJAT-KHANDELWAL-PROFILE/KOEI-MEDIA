@@ -888,19 +888,19 @@ h3 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: linear-gradient(135deg, var(--color-cyan), var(--color-pink));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 20px;
   color: white;
   opacity: 0.9;
   transition: all var(--transition-medium);
   box-shadow: 0 8px 32px rgba(0, 217, 255, 0.4);
-  padding-left: 6px;
+  padding-left: 4px;
 }
 
 .work-card.has-video:hover .work-card-image::after {
@@ -1423,7 +1423,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   background: var(--bg-card);
   border-radius: var(--radius-sm);
   transition: background var(--transition-fast);
@@ -1431,6 +1431,16 @@ h3 {
 
 .contact-item:hover {
   background: var(--bg-card-hover);
+}
+
+.contact-item p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.contact-item strong {
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
 .contact-form {
@@ -1728,6 +1738,14 @@ h3 {
 
   .work-card-description {
     font-size: 0.85rem;
+  }
+
+  /* Smaller play buttons on mobile */
+  .work-card.has-video .work-card-image::after {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    padding-left: 3px;
   }
 
   /* Services Section */

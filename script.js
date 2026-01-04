@@ -444,29 +444,46 @@ function initializeTestimonials() {
 // ================================
 function initializeContactForm() {
   const form = document.getElementById('contactForm');
+  const submitBtn = form.querySelector('.submit-btn');
+  const originalBtnText = submitBtn.textContent;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
 
-    // Simple validation
-    if (!data.name || !data.email || !data.message) {
-      alert('Please fill in all fields');
-      return;
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        // Success
+        alert('✅ Thank you for your message! We\'ll get back to you soon.');
+        form.reset();
+      } else {
+        // Error from Formspree
+        const data = await response.json();
+        if (data.errors) {
+          alert('❌ Oops! There was a problem with your submission:\n' + data.errors.map(error => error.message).join(', '));
+        } else {
+          alert('❌ Oops! There was a problem submitting your form. Please try again.');
+        }
+      }
+    } catch (error) {
+      // Network error
+      alert('❌ Oops! There was a network error. Please check your connection and try again.');
+    } finally {
+      // Re-enable button
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
     }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      alert('Please enter a valid email address');
-      return;
-    }
-
-    // Success message (in real implementation, this would send to a server)
-    alert('Thank you for your message! We\'ll get back to you soon.');
-    form.reset();
   });
 }
 
